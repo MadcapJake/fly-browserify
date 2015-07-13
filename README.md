@@ -4,7 +4,7 @@
   </a>
 </div>
 
-> [Browserify](https://github.com/MadcapJake/fly-browserify) plugin for _[Fly][fly]_.
+> [Browserify](http://browserify.org/) plugin for _[Fly][fly]_.
 
 [![][fly-badge]][fly]
 [![npm package][npm-ver-link]][releases]
@@ -13,7 +13,7 @@
 [![][mit-badge]][mit]
 
 ## Usage
-> Check out the [documentation](PLUGIN_DOCUMENTATION) to see the available options.
+> Check out the [documentation](https://github.com/substack/node-browserify#methods) to see the available options.
 
 ### Install
 
