@@ -1,0 +1,40 @@
+{
+  "name": "fly-browserify",
+  "version": "0.0.1",
+  "description": "Browserify plugin for Fly.",
+  "license": "MIT",
+  "repository": "https://github.com/MadcapJake/fly-browserify",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "fly",
+    "browserify"
+  ],
+  "scripts": {
+    "lint": "eslint *.js",
+    "tape": "tape test/*.js",
+    "test": "npm run lint && npm run tape | tspec",
+    "build": "echo No build task specified.",
+    "deploy": "npm run test && git push origin master && npm publish",
+    "test-ci": "node --harmony --harmony_arrow_functions ./node_modules/tape/bin/tape test/*.js"
+  },
+  "author": {
+    "name": "Jake Russo",
+    "email": "madcap.russo@gmail.com",
+    "url": "http://github.com/MadcapJake"
+  },
+  "dependencies": {
+    "browserify": "^10.2.6"
+  },
+  "devDependencies": {
+    "eslint": "^0.21.2",
+    "tap-spec": "^4.0.2",
+    "tape": "^4.0.0"
+  },
+  "engines": {
+    "iojs": ">= 1.0.0",
+    "node": ">= 0.11.0"
+  }
+}
