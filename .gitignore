@@ -1,2 +1,9 @@
+# NPM Stuff
 *.log
-node_modules/
+node_modules
+
+# Built JS
+lib
+
+# Earl Grey Cache
+egcache
