@@ -6,9 +6,7 @@ module.exports = function () {
     return new Promise(function (resolve, reject) {
       this.unwrap((files) => {
         files.forEach(file => compiler.add(file))
-        compiler.bundle(function (err, buf) {
-          err ? reject(err) : resolve(buf)
-        })
+        compiler.bundle((err, buf) => err === null ? reject(err) : resolve(buf))
       })
     }.bind(this))
   }
