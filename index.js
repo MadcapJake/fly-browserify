@@ -3,14 +3,15 @@ let browserify = function (opts) {
   this.unwrap((files) => {
     files.forEach(file => compiler.add(file))
     compiler.bundle(function (err, buf) {
-      err ? this.err(err) : this.debug(buf)
-      return buf
+      if (err) throw err
+      // console.log(buf.toString())
+      return buf.toString()
     })
   })
 }
 
 module.exports = function () {
-  this.browse = function (options) {
-    return this.defer(browserify)(options)
-  }
+  this.filter("browse", function (_, options) {
+    return this.defer(browserify.bind(this))(options)
+  })
 }
