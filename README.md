@@ -29,7 +29,7 @@ export default function* () {
   yield this.clear("build")
   yield this
     .source(paths.scripts)
-    .browse({ transform [require("reactify")] })
+    .browse({ transform: [require("reactify")] })
     .concat("bundle.js")
     .target("lib")
 }
