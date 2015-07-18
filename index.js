@@ -1,6 +1,6 @@
 let browserify = function (opts) {
   const compiler = require("browserify")(opts)
-  this.unwrap((files) => {
+  return this.unwrap((files) => {
     files.forEach(file => compiler.add(file))
     compiler.bundle(function (err, buf) {
       if (err) throw err
