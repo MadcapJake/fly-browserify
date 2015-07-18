@@ -1,17 +1,15 @@
-let browserify = function (opts) {
-  const compiler = require("browserify")(opts)
-  return this.unwrap((files) => {
-    files.forEach(file => compiler.add(file))
-    compiler.bundle(function (err, buf) {
-      if (err) throw err
-      // console.log(buf.toString())
-      return buf.toString()
-    })
-  })
-}
+const browserify = require("browserify")
 
 module.exports = function () {
-  this.filter("browse", function (_, options) {
-    return this.defer(browserify.bind(this))(options)
-  })
+  this.browse = function (opts) {
+    const compiler = browserify(opts)
+    return new Promise(function (resolve, reject) {
+      this.unwrap((files) => {
+        files.forEach(file => compiler.add(file))
+        compiler.bundle((err, buf) => err
+          ? reject(err)
+          : resolve(buf.toString()))
+      })
+    }.bind(this))
+  }
 }
