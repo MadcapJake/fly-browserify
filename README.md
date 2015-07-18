@@ -23,10 +23,28 @@ npm install -D fly-browserify
 
 ### Example
 
+#### ES6
 ```js
 export default function* () {
-  yield ...
+  yield this.clear("build")
+  yield this
+    .source(paths.scripts)
+    .browse({ transform [require("reactify")] })
+    .concat("bundle.js")
+    .target("lib")
 }
+```
+#### Earl Grey
+```earl-grey
+require: earlify
+provide: default
+default = *->
+  yield this.clear("build")
+  yield chain this:
+    @source: paths.scripts
+    @browse: { transform = {earlify} }
+    @concat: "bundle.js"
+    @target: .lib
 ```
 
 # License
