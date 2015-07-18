@@ -31,9 +31,6 @@
   },
   "devDependencies": {
     "eslint": "^0.21.2",
-    "fly": "^0.3.3",
-    "fly-earl": "^0.3.0",
-    "fly-notify": "^0.1.1",
     "tap-spec": "^4.0.2",
     "tape": "^4.0.0"
   },

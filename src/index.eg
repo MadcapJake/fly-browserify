@@ -1,9 +1,0 @@
-require:
-   browserify
-
-browse = (src, opts) ->
-   print 'src: {src}'
-   print 'opts: {opts}'
-
-module.exports = @->
-   @filter("browse") with (src, opts) @-> @defer(browse)(src, opts)
