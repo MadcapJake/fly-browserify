@@ -6,7 +6,15 @@
 
 ## Changelog
 
- * 0.0.0
+ * Update CHANGELOG.md
+
+### v1.0.0
+
+ * Changed function name to more standard long-form `browserify` #3
+ * Slight performance improvement via extracted out code from `module.exports`
+ * Output error message instead of killing entire Fly instance
+
+Thanks to @lukeed for the PR!
 
 ### v0.0.0
 
