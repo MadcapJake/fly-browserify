@@ -3,7 +3,7 @@ const browserify = require("browserify")
 function compile(compiler, cb) {
   return this.unwrap((files) => {
     files.forEach(file => compiler.add(file))
-    compiler.bundle(function (err, buf) {
+    compiler.bundle((err, buf) => {
       if (err) {
         return this.emit("plugin_error", {
           plugin: "fly-browserify",
