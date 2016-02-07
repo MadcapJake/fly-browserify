@@ -7,7 +7,7 @@
 > [Browserify](http://browserify.org/) plugin for _[Fly][fly]_.
 
 [![][fly-badge]][fly]
-[![npm package][npm-ver-link]][releases]
+[![npm package][npm-ver-badge]][changelog]
 [![][dl-badge]][npm-pkg-link]
 [![][travis-badge]][travis-link]
 [![][mit-badge]][mit]
@@ -55,12 +55,12 @@ default = *->
 [mit]:          http://opensource.org/licenses/MIT
 [author]:       http://github.com/MadcapJake
 [contributors]: https://github.com/MadcapJake/fly-browserify/graphs/contributors
-[releases]:     https://github.com/MadcapJake/fly-browserify/releases
+[changelog]:     https://github.com/MadcapJake/fly-browserify/blob/master/CHANGELOG.md
 [fly]:          https://www.github.com/flyjs/fly
 [fly-badge]:    https://img.shields.io/badge/fly-JS-05B3E1.svg?style=flat-square
 [mit-badge]:    https://img.shields.io/badge/license-MIT-444444.svg?style=flat-square
 [npm-pkg-link]: https://www.npmjs.org/package/fly-browserify
-[npm-ver-link]: https://img.shields.io/npm/v/fly-browserify.svg?style=flat-square
+[npm-ver-badge]: https://img.shields.io/npm/v/fly-browserify.svg?style=flat-square
 [dl-badge]:     http://img.shields.io/npm/dm/fly-browserify.svg?style=flat-square
 [travis-link]:  https://travis-ci.org/MadcapJake/fly-browserify
 [travis-badge]: http://img.shields.io/travis/MadcapJake/fly-browserify.svg?style=flat-square
