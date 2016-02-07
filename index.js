@@ -9,7 +9,7 @@ module.exports = function () {
       })
     })
   }
-  this.filter("browse", (source, options) =>
+  this.filter("browserify", (source, options) =>
     this.defer(browserify.bind(this))(source, options)
   )
 }
