@@ -29,7 +29,7 @@ export default function* () {
   yield this.clear("build")
   yield this
     .source(paths.scripts)
-    .browse({ transform: [require("reactify")] })
+    .browserify({ transform: [require("reactify")] })
     .concat("bundle.js")
     .target("lib")
 }
@@ -42,7 +42,7 @@ default = *->
   yield this.clear("build")
   yield chain this:
     @source: paths.scripts
-    @browse: { transform = {earlify} }
+    @browserify: { transform = {earlify} }
     @concat: "bundle.js"
     @target: .lib
 ```
