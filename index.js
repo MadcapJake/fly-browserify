@@ -1,6 +1,7 @@
+const browserify = require('browserify')
+
 module.exports = function () {
-  const browserify = (_, opts, cb) => {
-    const compiler = require("browserify")(opts)
+  const compile = (compiler, cb) => {
     return this.unwrap((files) => {
       files.forEach(file => compiler.add(file))
       compiler.bundle(function (err, buf) {
@@ -9,7 +10,8 @@ module.exports = function () {
       })
     })
   }
-  this.filter("browserify", (source, options) =>
-    this.defer(browserify.bind(this))(source, options)
-  )
+  this.filter('browserify', (source, options) => {
+    const b = browserify(options)
+    return this.defer(compile.bind(this))(b)
+  })
 }
