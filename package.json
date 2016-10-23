@@ -21,6 +21,11 @@
     "email": "madcap.russo@gmail.com",
     "url": "http://github.com/MadcapJake"
   },
+  "maintainers": [{
+    "name": "Luke Edwards",
+    "email": "luke.edwards05@gmail.com",
+    "url": "https://lukeed.com"
+  }],
   "dependencies": {
     "arrify": "^1.0.1",
     "browserify": "^13.0.0",
