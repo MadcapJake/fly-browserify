@@ -1,55 +1,121 @@
-<div align="center">
-  <a href="http://github.com/flyjs/fly">
-    <img width=200px  src="https://cloud.githubusercontent.com/assets/8317250/8733685/0be81080-2c40-11e5-98d2-c634f076ccd7.png">
-  </a>
-</div>
+# fly-browserify [![][travis-badge]][travis-link]
 
-> [Browserify](http://browserify.org/) plugin for _[Fly][fly]_.
+> [Browserify](http://browserify.org/) plugin for Fly
 
-[![][fly-badge]][fly]
-[![npm package][npm-ver-badge]][changelog]
-[![][dl-badge]][npm-pkg-link]
-[![][travis-badge]][travis-link]
-[![][mit-badge]][mit]
 
-## Usage
-> Check out the [documentation](https://github.com/substack/node-browserify#browserifyfiles--opts) to see the available options.
 
-### Install
+## Install
 
-```a
-npm install -D fly-browserify
+```
+npm install --save-dev fly-browserify
 ```
 
-### Example
+## API
 
-#### ES6
+### .browserify(options)
+
+Please see [Browserify's documentation](https://github.com/substack/node-browserify#browserifyfiles--opts) for a full list of available options.
+
+#### options.entries
+
+Type: `string` or `array`<br>
+Default: `''`
+
+Define "entry" files, which represent new bundles. _Optional._ See an [example usage](#direct-paths-via-optsentries).
+
+> **Note:** If not specified, `fly-browserify` will assumes **all** files within `fly.source()` are new bundle entries.
+
+> **Important:** This plugin (`fly-browserify`) enforces **new a bundle per entry** unlike `browserify`. 
+
+Using this option is particularly handy when your task (eg, `scripts`) contains plugin methods whose source files should be more than your entry files.
+
 ```js
-export default function* () {
-  yield this.clear("build")
-  yield this
-    .source(paths.scripts)
-    .browserify({ transform: [require("reactify")] })
-    .concat("bundle.js")
-    .target("lib")
+exports.scripts = function * () {
+  yield this.source('src/scripts/app.js')
+    .xo() // ONLY lints one file
+    .browserify() // make 'app.js' bundle
+    .target('dist/js'); //=> dist/js/app.js
+// VS
+  yield this.source('src/**/*.js')
+    .xo() // lints ALL files
+    .browserify({
+      entries: 'src/scripts/app.js'
+    }) // make 'app.js' bundle
+    .target('dist/js'); //=> dist/js/app.js
 }
 ```
-#### Earl Grey
-```earl-grey
-require: earlify
-provide: default
-default = *->
-  yield this.clear("build")
-  yield chain this:
-    @source: paths.scripts
-    @browserify: { transform = {earlify} }
-    @concat: "bundle.js"
-    @target: .lib
+
+## Usage
+
+### Basic
+
+```js
+exports.default = function * () {
+  yield this.source('src/scripts/app.js')
+    .browserify()
+    .target('dist');
+};
 ```
 
-# License
+### Transforms
 
-[MIT][mit] © [Jake Russo][author] et [al][contributors]
+There's a huge list of [browserify transforms](https://github.com/substack/node-browserify/wiki/list-of-transforms) available to you. You may `require()` any of them & include their functionalities in your bundles.
+
+```js
+exports.default = function * () {
+  yield this.source('src/scripts/app.js')
+    .browserify({
+      transform: [require('reactify')]
+    })
+    .target('dist');
+};
+```
+
+### Multiple Bundles
+
+There are a handful of ways you can create multiple `browserify` "bundles" without the need to repeat your task.
+
+#### Direct Paths via `fly.source()`
+
+```js
+exports.default = function * () {
+  yield this.source([
+      'src/scripts/app.js',
+      'src/scripts/admin.js'
+    ])
+    .browserify()
+    .target('dist');
+}
+```
+
+#### Glob Patterns via `fly.source()`
+
+```js
+exports.default = function * () {
+  yield this.source('src/entries/*.js')
+    .browserify()
+    .target('dist');
+}
+```
+
+#### Direct Paths via `opts.entries`
+
+```js
+exports.default = function * () {
+  yield this.source('src/**/*.js')
+    .browserify({
+      entries: [
+       'src/scripts/app.js',
+       'src/scripts/admin.js'
+      ]
+    })
+    .target('dist');
+}
+```
+
+## License
+
+MIT © [Jake Russo][author] et [al][contributors]
 
 
 [mit]:          http://opensource.org/licenses/MIT
