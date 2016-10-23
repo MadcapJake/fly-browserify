@@ -27,6 +27,7 @@
     "stream-to-promise": "^2.2.0"
   },
   "devDependencies": {
+    "fly": "beta",
     "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
     "xo": "*"
