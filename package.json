@@ -14,12 +14,7 @@
     "browserify"
   ],
   "scripts": {
-    "lint": "eslint *.js",
-    "tape": "tape test/*.js",
-    "test": "npm run lint && npm run tape | tspec",
-    "build": "fly",
-    "deploy": "npm run test && git push origin master && npm publish",
-    "test-ci": "node --harmony --harmony_arrow_functions ./node_modules/tape/bin/tape test/*.js"
+    "test": "xo ** tape test/*.js | tap-spec"
   },
   "author": {
     "name": "Jake Russo",
@@ -30,9 +25,9 @@
     "browserify": "^10.2.6"
   },
   "devDependencies": {
-    "eslint": "^0.21.2",
     "tap-spec": "^4.0.2",
-    "tape": "^4.0.0"
+    "tape": "^4.0.0",
+    "xo": "*"
   },
   "engines": {
     "iojs": ">= 1.0.0",
