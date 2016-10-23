@@ -14,7 +14,7 @@
     "browserify"
   ],
   "scripts": {
-    "test": "xo ** tape test/*.js | tap-spec"
+    "test": "xo && tape test/*.js | tap-spec"
   },
   "author": {
     "name": "Jake Russo",
@@ -22,7 +22,9 @@
     "url": "http://github.com/MadcapJake"
   },
   "dependencies": {
-    "browserify": "^13.0.0"
+    "arrify": "^1.0.1",
+    "browserify": "^13.0.0",
+    "stream-to-promise": "^2.2.0"
   },
   "devDependencies": {
     "tap-spec": "^4.1.1",

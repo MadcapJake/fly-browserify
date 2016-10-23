@@ -1,30 +1,41 @@
-const browserify = require("browserify")
+'use strict';
 
-function compile(compiler, cb) {
-  return this.unwrap((files) => {
-    files.forEach(file => compiler.add(file))
-    compiler.bundle((err, buf) => {
-      if (err) {
-        return this.emit("plugin_error", {
-          plugin: "fly-browserify",
-          error: getError(err.message, this.root)
-        })
-      }
+const p = require('path');
+const arrify = require('arrify');
+const browserify = require('browserify');
+const streamToPromise = require('stream-to-promise');
 
-      cb(null, buf.toString())
-    })
-  })
-}
+module.exports = function () {
+	const setError = msg => this.emit('plugin_error', {
+		plugin: 'fly-browserify',
+		error: msg.replace(this.root, '').replace(': ', ': \n\n  ')
+						.replace(' while parsing', '\n\nwhile parsing').concat('\n')
+	});
 
-function getError(msg, basedir) {
-  return msg.replace(RegExp(basedir, "g"), "")
-    .replace(": ", ": \n\n  ")
-    .replace(" while parsing", "\n\nwhile parsing") + "\n"
-}
+	this.plugin('browserify', {every: 0}, function * (files, opts) {
+		opts = opts || {};
+		opts.entries = opts.entries && arrify(opts.entries);
+		// ensure pathObjects (consistency)
+		files = opts.entries ? opts.entries.map(p.parse) : files;
+		// dont pass to browserify
+		delete opts.entries;
 
-module.exports = function() {
-  this.filter("browserify", (source, options) => {
-    const b = browserify(options)
-    return this.defer(compile.bind(this))(b)
-  })
-}
+		const b = browserify();
+
+		for (let file of files) {
+			b.add(p.format(file), opts);
+
+			try {
+				// check for source maps?
+				file.data = yield streamToPromise(b.bundle());
+			} catch (err) {
+				return setError(err.message);
+			}
+
+			b.reset();
+		}
+
+		// replace `fly._.files`
+		this._.files = files;
+	});
+};
