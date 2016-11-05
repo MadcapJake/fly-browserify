@@ -2,13 +2,13 @@
 
 > [Browserify](http://browserify.org/) plugin for Fly
 
-
-
 ## Install
 
 ```
-npm install --save-dev fly-browserify
+npm install --save-dev @lukeed/fly-browserify
 ```
+
+> **Note::** Plugin exists as a scoped package while the [original](https://github.com/MadcapJake/fly-browserify) remains inactive.
 
 ## API
 
@@ -35,7 +35,9 @@ exports.scripts = function * () {
     .xo() // ONLY lints one file
     .browserify() // make 'app.js' bundle
     .target('dist/js'); //=> dist/js/app.js
-// VS
+
+  /* VS */
+
   yield this.source('src/**/*.js')
     .xo() // lints ALL files
     .browserify({
@@ -115,18 +117,9 @@ exports.default = function * () {
 
 ## License
 
-MIT © [Jake Russo][author] et [al][contributors]
+MIT © [Luke Edwards](https://lukeed.com)
 
-
-[mit]:          http://opensource.org/licenses/MIT
-[author]:       http://github.com/MadcapJake
-[contributors]: https://github.com/MadcapJake/fly-browserify/graphs/contributors
-[changelog]:     https://github.com/MadcapJake/fly-browserify/blob/master/CHANGELOG.md
-[fly]:          https://www.github.com/flyjs/fly
-[fly-badge]:    https://img.shields.io/badge/fly-JS-05B3E1.svg?style=flat-square
-[mit-badge]:    https://img.shields.io/badge/license-MIT-444444.svg?style=flat-square
 [npm-pkg-link]: https://www.npmjs.org/package/fly-browserify
 [npm-ver-badge]: https://img.shields.io/npm/v/fly-browserify.svg?style=flat-square
-[dl-badge]:     http://img.shields.io/npm/dm/fly-browserify.svg?style=flat-square
-[travis-link]:  https://travis-ci.org/MadcapJake/fly-browserify
-[travis-badge]: http://img.shields.io/travis/MadcapJake/fly-browserify.svg?style=flat-square
+[travis-link]:  https://travis-ci.org/lukeed/fly-browserify
+[travis-badge]: http://img.shields.io/travis/lukeed/fly-browserify.svg?style=flat-square

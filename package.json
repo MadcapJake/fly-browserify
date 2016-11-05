@@ -1,9 +1,9 @@
 {
-  "name": "fly-browserify",
+  "name": "@lukeed/fly-browserify",
   "version": "1.0.0",
   "description": "Browserify plugin for Fly.",
   "license": "MIT",
-  "repository": "https://github.com/MadcapJake/fly-browserify",
+  "repository": "https://github.com/lukeed/fly-browserify",
   "main": "index.js",
   "files": [
     "index.js"
@@ -17,15 +17,10 @@
     "test": "xo && tape test/*.js | tap-spec"
   },
   "author": {
-    "name": "Jake Russo",
-    "email": "madcap.russo@gmail.com",
-    "url": "http://github.com/MadcapJake"
-  },
-  "maintainers": [{
     "name": "Luke Edwards",
     "email": "luke.edwards05@gmail.com",
     "url": "https://lukeed.com"
-  }],
+  },
   "dependencies": {
     "arrify": "^1.0.1",
     "browserify": "^13.0.0",
