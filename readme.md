@@ -5,7 +5,7 @@
 ## Install
 
 ```
-npm install --save-dev @lukeed/fly-browserify
+npm install --save-dev fly-browserify2
 ```
 
 > **Note::** Plugin exists as a scoped package while the [original](https://github.com/MadcapJake/fly-browserify) remains inactive.
