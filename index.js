@@ -3,7 +3,6 @@
 const p = require('path');
 const arrify = require('arrify');
 const browserify = require('browserify');
-const streamToPromise = require('stream-to-promise');
 
 module.exports = function () {
 	const setError = msg => this.emit('plugin_error', {
