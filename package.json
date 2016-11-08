@@ -33,5 +33,10 @@
   },
   "engines": {
     "node": ">= 4.6.0"
+  },
+  "xo": {
+    "rules": {
+      "promise/param-names": 1
+    }
   }
 }
