@@ -21,12 +21,15 @@ module.exports = function () {
 
 		const b = browserify();
 
-		for (let file of files) {
-			b.add(p.format(file), opts);
+		const bundle = obj => new Promise((res, rej) => {
+			b.add(p.format(obj), opts);
+			b.bundle((err, buf) => err ? rej(err) : res(buf));
+		});
 
+		// @todo: check for source maps?
+		for (let file of files) {
 			try {
-				// check for source maps?
-				file.data = yield streamToPromise(b.bundle());
+				file.data = yield bundle(file);
 			} catch (err) {
 				return setError(err.message);
 			}
