@@ -22,13 +22,20 @@ module.exports = function () {
 		// init bundler
 		const b = browserify();
 
+		// apply transforms
+		for (const t of opts.transform || []) {
+			b.transform.apply(b, arrify(t));
+		}
+
+		delete opts.transform;
+
 		const bundle = obj => new Promise((res, rej) => {
 			b.add(p.format(obj), opts);
 			b.bundle((err, buf) => err ? rej(err) : res(buf));
 		});
 
 		// @todo: check for source maps?
-		for (let file of files) {
+		for (const file of files) {
 			try {
 				file.data = yield bundle(file);
 			} catch (err) {
