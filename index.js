@@ -13,12 +13,13 @@ module.exports = function () {
 
 	this.plugin('browserify', {every: 0}, function * (files, opts) {
 		opts = opts || {};
-		opts.entries = opts.entries && arrify(opts.entries);
-		// ensure pathObjects (consistency)
-		files = opts.entries ? opts.entries.map(p.parse) : files;
-		// dont pass to browserify
-		delete opts.entries;
 
+		if (opts.entries) {
+			files = arrify(opts.entries).map(p.parse);
+			delete opts.entries;
+		}
+
+		// init bundler
 		const b = browserify();
 
 		const bundle = obj => new Promise((res, rej) => {
