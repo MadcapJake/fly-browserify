@@ -4,12 +4,17 @@ const p = require('path');
 const arrify = require('arrify');
 const browserify = require('browserify');
 
+const NAME = 'fly-browserify';
+
 module.exports = function () {
-	const setError = msg => this.emit('plugin_error', {
-		plugin: 'fly-browserify',
-		error: msg.replace(this.root, '').replace(': ', ': \n\n  ')
-						.replace(' while parsing', '\n\nwhile parsing').concat('\n')
-	});
+	const setError = msg => {
+		this.emit('plugin_error', {
+			plugin: NAME,
+			error: msg.replace(this.root, '').replace(': ', ': \n\n  ')
+							.replace(' while parsing', '\n\nwhile parsing').concat('\n')
+		});
+		return new Buffer(`console.error('${NAME}: Bundle error! Check CLI output.');`);
+	};
 
 	this.plugin('browserify', {every: 0}, function * (files, opts) {
 		opts = opts || {};
@@ -39,7 +44,7 @@ module.exports = function () {
 			try {
 				file.data = yield bundle(file);
 			} catch (err) {
-				return setError(err.message);
+				file.data = setError(err.message);
 			}
 
 			b.reset();
