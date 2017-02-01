@@ -1,26 +1,25 @@
 'use strict';
 
-const p = require('path');
-const arrify = require('arrify');
+const {format, parse} = require('path');
 const browserify = require('browserify');
+const arrify = require('arrify');
 
 const NAME = 'fly-browserify';
 
-module.exports = function () {
+module.exports = function (fly) {
 	const setError = msg => {
-		this.emit('plugin_error', {
+		fly.emit('plugin_error', {
 			plugin: NAME,
-			error: msg.replace(this.root, '').replace(': ', ': \n\n  ')
-							.replace(' while parsing', '\n\nwhile parsing').concat('\n')
+			error: msg.replace(fly.root, '').replace(': ', ': \n\n  ').replace(' while parsing', '\n\nwhile parsing').concat('\n')
 		});
 		return new Buffer(`console.error('${NAME}: Bundle error! Check CLI output.');`);
 	};
 
-	this.plugin('browserify', {every: 0}, function * (files, opts) {
+	fly.plugin('browserify', {every: 0}, function * (files, opts) {
 		opts = opts || {};
 
 		if (opts.entries) {
-			files = arrify(opts.entries).map(p.parse);
+			files = arrify(opts.entries).map(parse);
 			delete opts.entries;
 		}
 
@@ -35,7 +34,7 @@ module.exports = function () {
 		delete opts.transform;
 
 		const bundle = obj => new Promise((res, rej) => {
-			b.add(p.format(obj), opts);
+			b.add(format(obj), opts);
 			b.bundle((err, buf) => err ? rej(err) : res(buf));
 		});
 
