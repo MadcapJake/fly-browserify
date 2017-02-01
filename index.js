@@ -1,30 +1,55 @@
-const browserify = require("browserify")
+'use strict';
 
-function compile(compiler, cb) {
-  return this.unwrap((files) => {
-    files.forEach(file => compiler.add(file))
-    compiler.bundle((err, buf) => {
-      if (err) {
-        return this.emit("plugin_error", {
-          plugin: "fly-browserify",
-          error: getError(err.message, this.root)
-        })
-      }
+const {format, parse} = require('path');
+const browserify = require('browserify');
+const arrify = require('arrify');
 
-      cb(null, buf.toString())
-    })
-  })
-}
+const NAME = 'fly-browserify';
 
-function getError(msg, basedir) {
-  return msg.replace(RegExp(basedir, "g"), "")
-    .replace(": ", ": \n\n  ")
-    .replace(" while parsing", "\n\nwhile parsing") + "\n"
-}
+module.exports = function (fly) {
+	const setError = msg => {
+		fly.emit('plugin_error', {
+			plugin: NAME,
+			error: msg.replace(fly.root, '').replace(': ', ': \n\n  ').replace(' while parsing', '\n\nwhile parsing').concat('\n')
+		});
+		return new Buffer(`console.error('${NAME}: Bundle error! Check CLI output.');`);
+	};
 
-module.exports = function() {
-  this.filter("browserify", (source, options) => {
-    const b = browserify(options)
-    return this.defer(compile.bind(this))(b)
-  })
-}
+	fly.plugin('browserify', {every: 0}, function * (files, opts) {
+		opts = opts || {};
+
+		if (opts.entries) {
+			files = arrify(opts.entries).map(parse);
+			delete opts.entries;
+		}
+
+		// init bundler
+		const b = browserify();
+
+		// apply transforms
+		for (const t of opts.transform || []) {
+			b.transform.apply(b, arrify(t));
+		}
+
+		delete opts.transform;
+
+		const bundle = obj => new Promise((res, rej) => {
+			b.add(format(obj), opts);
+			b.bundle((err, buf) => err ? rej(err) : res(buf));
+		});
+
+		// @todo: check for source maps?
+		for (const file of files) {
+			try {
+				file.data = yield bundle(file);
+			} catch (err) {
+				file.data = setError(err.message);
+			}
+
+			b.reset();
+		}
+
+		// replace `fly._.files`
+		this._.files = files;
+	});
+};
